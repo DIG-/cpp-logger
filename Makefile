@@ -5,7 +5,7 @@ PROJECT_SRC =logger.cpp
 
 all: $(PJ_LIB_SHARED_WPATH) $(PJ_LIB_STATIC_WPATH)
 
-static $(PJ_LIB_STATIC_WPATH): $(DIRS_STATIC) $(PJ_OBJ_STATIC_WPATH)
+static $(PJ_LIB_STATIC_WPATH): $(DIRS) $(DIRS_STATIC) $(PJ_OBJ_STATIC_WPATH)
 ifeq ($(WIN),0)
 	-@echo "$(COLOR_BLUE)Library$(COLOR_GREEN)    $(PJ_LIB_STATIC_WPATH)$(COLOR_RED)"
 	-@$(RM) $(PJ_LIB_STATIC_WPATH)
@@ -17,7 +17,7 @@ else
 	-@echo            Successfully
 endif
 
-shared $(PJ_LIB_SHARED_WPATH): $(DIRS_SHARED) $(PJ_OBJ_SHARED_WPATH)
+shared $(PJ_LIB_SHARED_WPATH): $(DIRS) $(DIRS_SHARED) $(PJ_OBJ_SHARED_WPATH)
 ifeq ($(WIN),0)
 	-@echo "$(COLOR_BLUE)Library$(COLOR_GREEN)    $(PJ_LIB_SHARED_WPATH)$(COLOR_RED)"
 	-@$(RM) $(PJ_LIB_SHARED_WPATH)
