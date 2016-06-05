@@ -1,7 +1,7 @@
 #ifndef _DIG_LOGGER_HPP_
 #define _DIG_LOGGER_HPP_ 1
 
-#ifdef DIG_LOGGER_STATIC
+#if defined(DIG_LOGGER_STATIC) || !(defined(_MSC_VER) || defined(_WIN32) || defined (_WIN64))
   #define _DIG_LOGGER_API_ 
 #else
   #ifdef _DIG_LOGGER_COMPILE_TIME_

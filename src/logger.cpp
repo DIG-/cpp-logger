@@ -89,7 +89,7 @@ inline std::string formatTime(const std::chrono::milliseconds time){
 void msg(const char* f, const unsigned l, const char* s, const Type t){
   std::chrono::milliseconds diffTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now()-start);
   mtx.lock();
-  if(t < sll){
+  if(t <= sll){
     #define P std::cout << "[" << formatTime(diffTime) << "]" DIG_LOGGER_THREAD DIG_LOGGER_FILE << " " << s << std::endl;
     #if defined(_MSC_VER) || defined(_WIN32) || defined (_WIN64)
       HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -109,7 +109,7 @@ void msg(const char* f, const unsigned l, const char* s, const Type t){
       std::cout << "\x1B[0m";
     #endif
   }
-  if((t < fll)&&(file.good())){
+  if((t <= fll)&&(file.good())){
     file<<"<tr class='level_"<<(int)t<<"'><td class='time'>" << formatTime(diffTime) << "</td><td class='line'>"<<std::this_thread::get_id()<<"</td><td class='line'>"<<l<<"</td><td class='file'>"<<f<<"</td><td class='message'>"<<s<<"</td></tr>"<<std::endl;
   }
   mtx.unlock();
@@ -118,7 +118,7 @@ void msg(const char* f, const unsigned l, const char* s, const Type t){
 void msg(const char* f, const unsigned l, const std::string s, const Type t){
   std::chrono::milliseconds diffTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now()-start);
   mtx.lock();
-  if(t < sll){
+  if(t <= sll){
     #define P std::cout << "[" << formatTime(diffTime) << "]" DIG_LOGGER_THREAD DIG_LOGGER_FILE << " " << s << std::endl;
     #if defined(_MSC_VER) || defined(_WIN32) || defined (_WIN64)
       HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -138,7 +138,7 @@ void msg(const char* f, const unsigned l, const std::string s, const Type t){
       std::cout << "\x1B[0m";
     #endif
   }
-  if((t < fll)&&(file.good())){
+  if((t <= fll)&&(file.good())){
     file<<"<tr class='level_"<<(int)t<<"'><td class='time'>" << formatTime(diffTime) << "</td><td class='line'>"<<std::this_thread::get_id()<<"</td><td class='line'>"<<l<<"</td><td class='file'>"<<f<<"</td><td class='message'>"<<s<<"</td></tr>"<<std::endl;
   }
   mtx.unlock();
