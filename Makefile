@@ -38,7 +38,7 @@ endif
 
 $(DIR_OBJ_STATIC)/%.o: $(DIR_SRC)/%.cpp
 ifeq ($(WIN),0)
-	-@echo "$(COLOR_BLUE)Compile$(COLOR_GREEN)    $<$(COLOR_RED)"
+	-@echo "$(COLOR_BLUE)Compile$(COLOR_GREEN)    $@$(COLOR_RED)"
 	-@$(RM) $@
 	-@$(CC) $(CCFLAGS_STATIC) -c $< -o $@
 	@if [ -f $@ ]; then return 0; else echo "Compile    ERROR\033[0m"; return 1; fi;
@@ -49,7 +49,7 @@ endif
 
 $(DIR_OBJ_SHARED)/%.o: $(DIR_SRC)/%.cpp
 ifeq ($(WIN),0)
-	-@echo "$(COLOR_BLUE)Compile$(COLOR_GREEN)    $<$(COLOR_RED)"
+	-@echo "$(COLOR_BLUE)Compile$(COLOR_GREEN)    $@$(COLOR_RED)"
 	-@$(RM) $@
 	-@$(CC) $(CCFLAGS_SHARED) -c $< -o $@
 	@if [ -f $@ ]; then return 0; else echo "Compile    ERROR\033[0m"; return 1; fi;
@@ -64,7 +64,7 @@ color:
 clean:
 ifeq ($(WIN),0)
 	-@echo "$(COLOR_BLUE)Cleaning project$(COLOR_RED)"
-	-$(RM) $(EX1_OUT_WPATH)
+	-$(RM) $(DIR_LIB)
 	-$(RM) $(DIR_OBJ)
 	-@echo "$(COLOR_DEF)"
 else
