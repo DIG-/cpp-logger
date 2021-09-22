@@ -20,7 +20,6 @@ namespace Logger {
 typedef enum { none, error, warning, info, debug, trace } Type;
 void _DIG_LOGGER_API_ setFileLogLevel(const Type);
 void _DIG_LOGGER_API_ setScreenLogLevel(const Type);
-void _DIG_LOGGER_API_ msg(const char*, const unsigned, const char*, const Type);
 void _DIG_LOGGER_API_ msg(const char*,
                           const unsigned,
                           const std::string,

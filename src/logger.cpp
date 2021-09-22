@@ -120,50 +120,6 @@ inline std::string formatTime(const std::chrono::milliseconds time) {
   // return std::put_time(std::ctime(),)
 }
 
-void msg(const char* f, const unsigned l, const char* s, const Type t) {
-  std::chrono::milliseconds diffTime =
-      std::chrono::duration_cast<std::chrono::milliseconds>(
-          std::chrono::system_clock::now() - start);
-  mtx.lock();
-  if (t <= sll) {
-#define P                                  \
-  std::cout << "[" << formatTime(diffTime) \
-            << "]" DIG_LOGGER_THREAD DIG_LOGGER_FILE << " " << s << std::endl;
-#if defined(_MSC_VER) || defined(_WIN32) || defined(_WIN64)
-    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-    SetConsoleTextAttribute(
-        hConsole,
-        (t == Logger::error)
-            ? 12
-            : ((t == Logger::warning)
-                   ? 14
-                   : ((t == Logger::info) ? 11
-                                          : (t == Logger::debug ? 7 : 8))));
-    P;
-    SetConsoleTextAttribute(hConsole, 7);
-#else
-    if (t == error)
-      std::cout << "\x1b[31m";
-    else if (t == warning)
-      std::cout << "\x1b[1;33m";
-    else if (t == info)
-      std::cout << "\x1b[0;36m";
-    else if (t == debug)
-      std::cout << "\x1B[1;37m";
-    P;
-    std::cout << "\x1B[0m";
-#endif
-  }
-  if ((t <= fll) && (file.good())) {
-    file << "<tr class='level_" << (int)t << "'><td class='time'>"
-         << formatTime(diffTime) << "</td><td class='line'>"
-         << std::this_thread::get_id() << "</td><td class='line'>" << l
-         << "</td><td class='file'>" << f << "</td><td class='message'>" << s
-         << "</td></tr>" << std::endl;
-  }
-  mtx.unlock();
-}
-
 void msg(const char* f, const unsigned l, const std::string s, const Type t) {
   std::chrono::milliseconds diffTime =
       std::chrono::duration_cast<std::chrono::milliseconds>(
