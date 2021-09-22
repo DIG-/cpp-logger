@@ -29,14 +29,14 @@ namespace DIG {
 namespace Logger {
 
 auto start = std::chrono::system_clock::now();
-uint8_t sll = (uint8_t)info;
-uint8_t fll = (uint8_t)none;
+Type sll = Type::info;
+Type fll = Type::none;
 std::mutex mtx;
 
 std::ofstream file;
 
-void setFileLogLevel(const char v) {
-  fll = (uint8_t)v;
+void setFileLogLevel(const Type v) {
+  fll = v;
   if (v == none) {
     file.close();
   } else {
@@ -95,8 +95,8 @@ void setFileLogLevel(const char v) {
   }
 }
 
-void setScreenLogLevel(const char v) {
-  sll = (uint8_t)v;
+void setScreenLogLevel(const Type v) {
+  sll = v;
 }
 
 void formatTime(std::ostream& output, const std::chrono::milliseconds& time) {
