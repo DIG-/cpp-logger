@@ -17,7 +17,7 @@
 #define DIG_LOGGER_FILE
 #else
 #define DIG_LOGGER_FILE \
-  << f << " " << std::setfill('0') << std::setw(4) << l << ":"
+  << filename << " " << std::setfill('0') << std::setw(4) << line << ":"
 #endif
 #ifdef DIG_LOGGER_SCREEN_NO_THREAD
 #define DIG_LOGGER_THREAD
@@ -29,15 +29,15 @@ namespace DIG {
 namespace Logger {
 
 auto start = std::chrono::system_clock::now();
-Type sll = Type::info;
-Type fll = Type::none;
+Type screen_type = Type::info;
+Type file_type = Type::none;
 std::mutex mtx;
 
 std::ofstream file;
 
-void setFileLogLevel(const Type v) {
-  fll = v;
-  if (v == none) {
+void setFileLogLevel(const Type type) {
+  file_type = type;
+  if (type == none) {
     file.close();
   } else {
     file.open("log.htm");
@@ -95,8 +95,8 @@ void setFileLogLevel(const Type v) {
   }
 }
 
-void setScreenLogLevel(const Type v) {
-  sll = v;
+void setScreenLogLevel(const Type type) {
+  screen_type = type;
 }
 
 void formatTime(std::ostream& output, const std::chrono::milliseconds& time) {
@@ -120,46 +120,50 @@ inline std::string formatTime(const std::chrono::milliseconds time) {
   // return std::put_time(std::ctime(),)
 }
 
-void msg(const char* f, const unsigned l, const std::string s, const Type t) {
+void msg(const char* filename,
+         const unsigned line,
+         const std::string message,
+         const Type type) {
   std::chrono::milliseconds diffTime =
       std::chrono::duration_cast<std::chrono::milliseconds>(
           std::chrono::system_clock::now() - start);
   mtx.lock();
-  if (t <= sll) {
-#define P                                  \
-  std::cout << "[" << formatTime(diffTime) \
-            << "]" DIG_LOGGER_THREAD DIG_LOGGER_FILE << " " << s << std::endl;
+  if (type <= screen_type) {
+#define P                                                              \
+  std::cout << "[" << formatTime(diffTime)                             \
+            << "]" DIG_LOGGER_THREAD DIG_LOGGER_FILE << " " << message \
+            << std::endl;
 #if defined(_MSC_VER) || defined(_WIN32) || defined(_WIN64)
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     SetConsoleTextAttribute(
-        hConsole,
-        (t == Logger::error)
-            ? 12
-            : ((t == Logger::warning)
-                   ? 14
-                   : ((t == Logger::info) ? 11
-                                          : (t == Logger::debug ? 7 : 8))));
+        hConsole, (type == Logger::error)
+                      ? 12
+                      : ((type == Logger::warning)
+                             ? 14
+                             : ((type == Logger::info)
+                                    ? 11
+                                    : (type == Logger::debug ? 7 : 8))));
     P;
     SetConsoleTextAttribute(hConsole, 7);
 #else
-    if (t == error)
+    if (type == error)
       std::cout << "\x1b[31m";
-    else if (t == warning)
+    else if (type == warning)
       std::cout << "\x1b[1;33m";
-    else if (t == info)
+    else if (type == info)
       std::cout << "\x1b[0;36m";
-    else if (t == debug)
+    else if (type == debug)
       std::cout << "\x1B[1;37m";
     P;
     std::cout << "\x1B[0m";
 #endif
   }
-  if ((t <= fll) && (file.good())) {
-    file << "<tr class='level_" << (int)t << "'><td class='time'>"
+  if ((type <= file_type) && (file.good())) {
+    file << "<tr class='level_" << (int)type << "'><td class='time'>"
          << formatTime(diffTime) << "</td><td class='line'>"
-         << std::this_thread::get_id() << "</td><td class='line'>" << l
-         << "</td><td class='file'>" << f << "</td><td class='message'>" << s
-         << "</td></tr>" << std::endl;
+         << std::this_thread::get_id() << "</td><td class='line'>" << line
+         << "</td><td class='file'>" << filename << "</td><td class='message'>"
+         << message << "</td></tr>" << std::endl;
   }
   mtx.unlock();
 }
