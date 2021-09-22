@@ -17,7 +17,7 @@
 namespace DIG {
 namespace Logger {
 
-typedef enum { none, error, warning, info, debug, trace } Type;
+enum Type { none, error, warning, info, debug, trace };
 void _DIG_LOGGER_API_ setFileLogLevel(const Type);
 void _DIG_LOGGER_API_ setScreenLogLevel(const Type);
 void _DIG_LOGGER_API_ msg(const char*,
@@ -33,10 +33,10 @@ void _DIG_LOGGER_API_ msg(const char*,
 // clang-format off
 #define SETSCREENLOGLEVEL(a) DIG::Logger::setScreenLogLevel(a)
 #define SETFILELOGLEVEL(a) DIG::Logger::setFileLogLevel(a)
-#define LOG_ERROR(a) DIG::Logger::msg(__FILE__, __LINE__, a, DIG::Logger::error)
-#define LOG_WARN(a) DIG::Logger::msg(__FILE__, __LINE__, a, DIG::Logger::warning)
-#define LOG_WARNING(a) DIG::Logger::msg(__FILE__, __LINE__, a, DIG::Logger::warning)
-#define LOG_INFO(a) DIG::Logger::msg(__FILE__, __LINE__, a, DIG::Logger::info)
+#define LOG_ERROR(a) DIG::Logger::msg(__FILE__, __LINE__, a, DIG::Logger::Type::error)
+#define LOG_WARN(a) DIG::Logger::msg(__FILE__, __LINE__, a, DIG::Logger::Type::warning)
+#define LOG_WARNING(a) DIG::Logger::msg(__FILE__, __LINE__, a, DIG::Logger::Type::warning)
+#define LOG_INFO(a) DIG::Logger::msg(__FILE__, __LINE__, a, DIG::Logger::Type::info)
 // clang-format on
 
 #ifdef DIG_LOGGER_NO_DEBUG
