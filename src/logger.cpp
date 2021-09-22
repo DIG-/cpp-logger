@@ -99,14 +99,22 @@ void setScreenLogLevel(const char v) {
   sll = (uint8_t)v;
 }
 
+void formatTime(std::ostream& output, const std::chrono::milliseconds& time) {
+  unsigned hour = time.count() / (1000 * 60 * 60);
+  unsigned hour_rest = time.count() % (1000 * 60 * 60);
+  unsigned minute = hour_rest / (1000 * 60);
+  unsigned minute_rest = hour_rest % (1000 * 60);
+  unsigned second = minute_rest / 1000;
+  unsigned millisecond = minute_rest % 1000;
+  output << std::setfill('0') << std::setw(2) << hour;
+  output << ":" << std::setfill('0') << std::setw(2) << minute;
+  output << ":" << std::setfill('0') << std::setw(2) << second;
+  output << "." << std::setfill('0') << std::setw(3) << millisecond;
+}
+
 inline std::string formatTime(const std::chrono::milliseconds time) {
   std::stringstream SS;
-  SS << std::setfill('0') << std::setw(2) << time.count() / (1000 * 60 * 60);
-  unsigned T = time.count() % (1000 * 60 * 60);
-  SS << ":" << std::setfill('0') << std::setw(2) << T / (1000 * 60);
-  T %= 1000 * 60;
-  SS << ":" << std::setfill('0') << std::setw(2) << T / 1000;
-  SS << "." << std::setfill('0') << std::setw(3) << T % 1000;
+  formatTime(SS, time);
   return SS.str();
 
   // return std::put_time(std::ctime(),)
