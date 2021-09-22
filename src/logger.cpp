@@ -26,6 +26,8 @@ std::mutex mtx;
 
 std::ofstream file;
 
+inline char type_as_char(const Type type);
+
 void setFileLogLevel(const Type type) {
   file_type = type;
   if (type == none) {
@@ -40,17 +42,21 @@ void setFileLogLevel(const Type type) {
               "{background:#555;}td {padding:1px; color:#aaa; border-right:1px "
               "solid #666; border-bottom:1px solid #666;}th "
               "{color:#666;border-bottom:1px solid #666;}.level_"
-           << error
+           << type_as_char(Type::error)
            << " .message:before {content:\"Error: \";color:#f00;}.level_"
-           << error << " td {color:#f00;}.level_" << warning
+           << type_as_char(Type::error) << " td {color:#f00;}.level_"
+           << type_as_char(Type::warning)
            << " .message:before {content:\"Warning: \";color:#fa0;}.level_"
-           << warning << " td {color:#fa0;}.level_" << debug
+           << type_as_char(Type::warning) << " td {color:#fa0;}.level_"
+           << type_as_char(Type::debug)
            << " .message:before {content:\"Debug: \";color:#aaa;}.level_"
-           << debug << " td {color:#aaa;}.level_" << trace
+           << type_as_char(Type::debug) << " td {color:#aaa;}.level_"
+           << type_as_char(Type::trace)
            << " .message:before {content:\"Trace: \";color:#666;}.level_"
-           << trace << " td {color:#666;}.level_" << info
+           << type_as_char(Type::trace) << " td {color:#666;}.level_"
+           << type_as_char(Type::info)
            << " .message:before {content:\"Information: \";color:#66f;}.level_"
-           << info
+           << type_as_char(Type::info)
            << " td {color:#66f;}.time {width:130px;text-align:right;}.file "
               "{width:200px;}.line {text-align:right;width:50px;}th "
               "{text-align:center;}.message {}</style><body><table "
@@ -207,11 +213,12 @@ void msg(const char* filename,
     clear_terminal_color(std::cout);
   }
   if ((type <= file_type) && (file.good())) {
-    file << "<tr class='level_" << (int)type << "'><td class='time'>"
-         << formatTime(diffTime) << "</td><td class='line'>"
-         << std::this_thread::get_id() << "</td><td class='line'>" << line
-         << "</td><td class='file'>" << filename << "</td><td class='message'>"
-         << message << "</td></tr>\n";
+    file << "<tr class='level_" << type_as_char(type) << "'><td class='time'>";
+    fill_time_info(file, diffTime);
+    file << "</td><td class='line'>" << std::this_thread::get_id()
+         << "</td><td class='line'>" << line << "</td><td class='file'>"
+         << filename << "</td><td class='message'>" << message
+         << "</td></tr>\n";
   }
   mtx.unlock();
 }
