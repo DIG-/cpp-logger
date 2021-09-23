@@ -1,0 +1,27 @@
+version: '{build}'
+
+image:
+  - Visual Studio 2019
+  - Ubuntu
+
+platform:
+  - x64
+  - Any CPU
+
+configuration:
+  - Debug
+  - Release
+
+init:
+  - cmake --version
+
+before_build:
+  - cmake .
+
+build_script:
+  - cmake --build . --config "%configuration%"
+
+branches:
+  only:
+    - master
+    - develop
