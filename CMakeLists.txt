@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.1)
-project(dig-logger VERSION 1.1.0 LANGUAGES CXX)
+project(dig-logger VERSION 1.1.1 LANGUAGES CXX)
 
 list(INSERT CMAKE_MODULE_PATH 0 ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
