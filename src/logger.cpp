@@ -36,56 +36,57 @@ void setFileLogLevel(const Type type) {
     file.open("log.htm");
     if (file.good()) {
       file << "<!DOCTYPE html><head><title>Log</title><style>body { "
-              "background:#000; color:ccc; font-family:Verdana; "
-              "font-size:12px; }table { width: 100%; border:1px dashed #666; "
-              "background:#444; cellpadding:0; cellspacing:0; }tr:hover "
-              "{background:#555;}td {padding:1px; color:#aaa; border-right:1px "
-              "solid #666; border-bottom:1px solid #666;}th "
-              "{color:#666;border-bottom:1px solid #666;}.level_"
+              "background:#000; color:ccc; font-family:monospace; "
+              "font-size:10pt; }table { width: 100%; border-top:1px solid "
+              "#333; border-left:1px solid #333; cellpadding:0; cellspacing:0; "
+              "}tr:hover {background:#222;}td {padding:1pt 2pt 1pt 1pt; "
+              "color:#aaa; border-bottom:1px solid #666;}th "
+              "{color:#767676;border-bottom:1px solid #333;}.level_"
            << type_as_char(Type::error)
-           << " .message:before {content:\"Error: \";color:#f00;}.level_"
-           << type_as_char(Type::error) << " td {color:#f00;}.level_"
+           << " .message:before {content:\"Error: \";color:#E74856;}.level_"
+           << type_as_char(Type::error) << " td {color:#E74856;}.level_"
            << type_as_char(Type::warning)
-           << " .message:before {content:\"Warning: \";color:#fa0;}.level_"
-           << type_as_char(Type::warning) << " td {color:#fa0;}.level_"
+           << " .message:before {content:\"Warning: \";color:#F9F1A5;}.level_"
+           << type_as_char(Type::warning) << " td {color:#F9F1A5;}.level_"
            << type_as_char(Type::debug)
            << " .message:before {content:\"Debug: \";color:#aaa;}.level_"
            << type_as_char(Type::debug) << " td {color:#aaa;}.level_"
            << type_as_char(Type::trace)
-           << " .message:before {content:\"Trace: \";color:#666;}.level_"
-           << type_as_char(Type::trace) << " td {color:#666;}.level_"
+           << " .message:before {content:\"Trace: \";color:#767676;}.level_"
+           << type_as_char(Type::trace) << " td {color:#767676;}.level_"
            << type_as_char(Type::info)
-           << " .message:before {content:\"Information: \";color:#66f;}.level_"
+           << " .message:before {content:\"Information: "
+              "\";color:#3B78FF;}.level_"
            << type_as_char(Type::info)
-           << " td {color:#66f;}.time {width:130px;text-align:right;}.file "
+           << " td {color:#3B78FF;}.time {width:80pt;text-align:right;}.file "
               "{width:200px;}.line {text-align:right;width:50px;}th "
               "{text-align:center;}.message {}</style><body><table "
               "cellpadding=0 cellspacing=0><tr><th class='time'>time</th><th "
               "class='line'>thread</th><th class='line'>line</th><th "
-              "class='file'>File</th><th class='message'>Message</th></tr>";
+              "class='file'>file</th><th class='message'>message</th></tr>";
       // clang-format off
       /* unoptmized
       Q(output)<<"<!DOCTYPE html><head><title>Log</title><style>";
-      Q(output)<<"body { background:#000; color:ccc; font-family:Verdana; font-size:12px; }";
-      Q(output)<<"table { width: 100%; border:1px dashed #666; background:#444; cellpadding:0; cellspacing:0; }";
-      Q(output)<<"tr:hover {background:#555;}";
-      Q(output)<<"td {padding:1px; color:#aaa; border-right:1px solid #666; border-bottom:1px solid #666;}";
-      Q(output)<<"th {color:#666;border-bottom:1px solid #666;}";
-      Q(output)<<".level_"<<error   <<" .message:before {content:\"Error: \";color:#f00;}";
-      Q(output)<<".level_"<<error   <<" td {color:#f00;}";
-      Q(output)<<".level_"<<warning <<" .message:before {content:\"Warning: \";color:#fa0;}";
-      Q(output)<<".level_"<<warning <<" td {color:#fa0;}";
+      Q(output)<<"body { background:#000; color:ccc; font-family:monospace; font-size:10pt; }";
+      Q(output)<<"table { width: 100%; border-top:1px solid #333; border-left:1px solid #333; cellpadding:0; cellspacing:0; }";
+      Q(output)<<"tr:hover {background:#222;}";
+      Q(output)<<"td {padding:1pt 2pt 1pt 1pt; color:#aaa; border-bottom:1px solid #333;}";
+      Q(output)<<"th {color:#767676;border-bottom:1px solid #666;}";
+      Q(output)<<".level_"<<error   <<" .message:before {content:\"Error: \";color:#E74856;}";
+      Q(output)<<".level_"<<error   <<" td {color:#E74856;}";
+      Q(output)<<".level_"<<warning <<" .message:before {content:\"Warning: \";color:#F9F1A5;}";
+      Q(output)<<".level_"<<warning <<" td {color:#F9F1A5;}";
       Q(output)<<".level_"<<debug   <<" .message:before {content:\"Debug: \";color:#aaa;}";
       Q(output)<<".level_"<<debug   <<" td {color:#aaa;}";
-      Q(output)<<".level_"<<trace   <<" .message:before {content:\"Trace: \";color:#666;}";
-      Q(output)<<".level_"<<trace   <<" td {color:#666;}";
-      Q(output)<<".level_"<<info    <<" .message:before {content:\"Information: \";color:#66f;}";
-      Q(output)<<".level_"<<info    <<" td {color:#66f;}";
-      Q(output)<<".time {width:130px;text-align:right;}";
+      Q(output)<<".level_"<<trace   <<" .message:before {content:\"Trace: \";color:#767676;}";
+      Q(output)<<".level_"<<trace   <<" td {color:#767676;}";
+      Q(output)<<".level_"<<info    <<" .message:before {content:\"Information: \";color:#3B78FF;}";
+      Q(output)<<".level_"<<info    <<" td {color:#3B78FF;}";
+      Q(output)<<".time {width:80pt;text-align:right;}";
       Q(output)<<".file {width:200px;}";
       Q(output)<<".line {text-align:right;width:50px;}";
       Q(output)<<"th {text-align:center;}.message {}";
-      Q(output)<<"</style><body><table cellpadding=0 cellspacing=0><tr><th class='time'>time</th><th class='line'>line</th><th class='file'>File</th><th class='message'>Message</th></tr>";
+      Q(output)<<"</style><body><table cellpadding=0 cellspacing=0><tr><th class='time'>time</th><th class='line'>line</th><th class='file'>file</th><th class='message'>message</th></tr>";
       */
       // clang-format on
     }
