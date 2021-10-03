@@ -201,6 +201,10 @@ void msg(const char* filename,
          const unsigned line,
          const std::string message,
          const Type type) {
+  if (type > screen_type && type > file_type) {
+    return;
+  }
+
   auto diffTime = std::chrono::duration_cast<std::chrono::milliseconds>(
       std::chrono::system_clock::now() - start);
   mtx.lock();
