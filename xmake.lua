@@ -12,3 +12,9 @@ target("dig-logger")
 
 includes("core")
 includes("util/filter")
+
+target("demo")
+    set_default(false)
+    set_kind("binary")
+    add_deps("dig-logger")
+    add_files("demo/demo.cpp")
