@@ -16,7 +16,7 @@ class Plain : public Stream {
   Plain(std::ostream& output) : Stream(output) { header(); }
   Plain(std::ofstream&& file) : file(std::move(file)), Stream(file) { header(); }
   Plain(const std::string_view filename) : file(filename.data(), std::fstream::trunc), Stream(file) { header(); }
-  Plain(const std::filesystem::path& filename) : file(filename.c_str(), std::fstream::trunc), Stream(file) { header(); }
+  Plain(std::filesystem::path& filename) : file(filename.c_str(), std::fstream::trunc), Stream(file) { header(); }
   ~Plain() {
     log(Level::VERBOSE, "Logger", std::optional<std::exception>(), "Finish", std::source_location::current());
   }

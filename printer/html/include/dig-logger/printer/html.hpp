@@ -16,7 +16,7 @@ class Html : public Stream {
   Html(std::ostream& output) : Stream(output) { header(); }
   Html(std::ofstream&& file) : file(std::move(file)), Stream(file) { header(); }
   Html(const std::string_view filename) : file(filename.data(), std::fstream::trunc), Stream(file) { header(); }
-  Html(const std::filesystem::path& filename) : file(filename.c_str(), std::fstream::trunc), Stream(file) { header(); }
+  Html(std::filesystem::path& filename) : file(filename.c_str(), std::fstream::trunc), Stream(file) { header(); }
   ~Html() { footer(); }
 
   void log(                                            //
