@@ -7,11 +7,13 @@ target("dig-logger")
     set_kind("static")
     add_deps("core", {public=true})
     add_deps("util-filter", {public=true})
+    add_deps("util-union", {public=true})
     add_files("core/src/dummy.cpp")
     set_policy("build.merge_archive", true)
 
 includes("core")
 includes("util/filter")
+includes("util/union")
 
 target("demo")
     set_default(false)
