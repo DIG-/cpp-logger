@@ -16,7 +16,7 @@ void Html::log(                                      //
 ) {
   std::lock_guard lock(mutex);
 
-  output << "<tr class=\"" << Formatter::level_long(level) << "\">";
+  output << "<tr class=\"level_" << Formatter::level_long(level) << "\">";
   output << "<td class=\"time\">";
   Formatter::current_date(output);
   output << "</td>";
@@ -54,31 +54,31 @@ void Html::header() {
             "tr:hover {background:#222;}"
             "td {padding:1pt 2pt 1pt 1pt;color:#aaa;border-bottom:1px solid #666;}"
             "th {color:#767676;border-bottom:1px solid #333;text-align:center;}"
-            ".time {width:80pt;text-align:right;}"
+            ".time {width:160pt;text-align:right;}"
             ".file {width:200px;}"
-            ".line {text-align:right;width:50px;}";
+            ".line {text-align:right;width:50px;}"
             ".tag {width:80pt;}";
 
   output << ".level_" << l_none << " .message:before {content:\"None: \";color:#ccc;}";
-  output << ".level_" << l_none << " .td {color:#ccc;}";
+  output << ".level_" << l_none << " td {color:#ccc;}";
 
-  output << ".level_" << l_verbose << " .message:before {content:\"None: \";color:#767676;}";
-  output << ".level_" << l_verbose << " .td {color:#767676;}";
+  output << ".level_" << l_verbose << " .message:before {content:\"Verbose: \";color:#767676;}";
+  output << ".level_" << l_verbose << " td {color:#767676;}";
 
-  output << ".level_" << l_debug << " .message:before {content:\"None: \";color:#ccc;}";
-  output << ".level_" << l_debug << " .td {color:#ccc;}";
+  output << ".level_" << l_debug << " .message:before {content:\"Debug: \";color:#ccc;}";
+  output << ".level_" << l_debug << " td {color:#ccc;}";
 
-  output << ".level_" << l_information << " .message:before {content:\"None: \";color:#61d6d6;}";
-  output << ".level_" << l_information << " .td {color:#61d6d6;}";
+  output << ".level_" << l_information << " .message:before {content:\"Info: \";color:#61d6d6;}";
+  output << ".level_" << l_information << " td {color:#61d6d6;}";
 
-  output << ".level_" << l_warning << " .message:before {content:\"None: \";color:#c19c00;}";
-  output << ".level_" << l_warning << " .td {color:#c19c00;}";
+  output << ".level_" << l_warning << " .message:before {content:\"Warning: \";color:#c19c00;}";
+  output << ".level_" << l_warning << " td {color:#c19c00;}";
 
-  output << ".level_" << l_error << " .message:before {content:\"None: \";color:#c50f1f;}";
-  output << ".level_" << l_error << " .td {color:#c50f1f;}";
+  output << ".level_" << l_error << " .message:before {content:\"Error: \";color:#c50f1f;}";
+  output << ".level_" << l_error << " td {color:#c50f1f;}";
 
-  output << ".level_" << l_assert << " .message:before {content:\"None: \";color:#b4009e;}";
-  output << ".level_" << l_assert << " .td {color:#b4009e;}";
+  output << ".level_" << l_assert << " .message:before {content:\"Assert: \";color:#b4009e;}";
+  output << ".level_" << l_assert << " td {color:#b4009e;}";
 
   output << "</style><body><table cellpadding=0 cellspacing=0><tr>"
             "<th class='time'>time</th>"
