@@ -30,6 +30,14 @@ void Plain::log(                                     //
   output << "\n";
 }
 
+void Plain::header() {
+  log(Level::VERBOSE, "Logger", std::optional<std::exception>(), "Init", std::source_location::current());
+}
+
+void Plain::footer() {
+  log(Level::VERBOSE, "Logger", std::optional<std::exception>(), "Finish", std::source_location::current());
+}
+
 }  // namespace Printer
 }  // namespace Logger
 }  // namespace DIG

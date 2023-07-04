@@ -17,9 +17,8 @@ class Plain : public Stream {
   Plain(std::ofstream&& file) : file(std::move(file)), Stream(file) { header(); }
   Plain(const std::string_view filename) : file(filename.data(), std::fstream::trunc), Stream(file) { header(); }
   Plain(std::filesystem::path& filename) : file(filename.c_str(), std::fstream::trunc), Stream(file) { header(); }
-  ~Plain() {
-    log(Level::VERBOSE, "Logger", std::optional<std::exception>(), "Finish", std::source_location::current());
-  }
+  ~Plain() { footer(); }
+
   void log(                                            //
       const Level level,                               //
       const std::string_view tag,                      //
@@ -29,9 +28,8 @@ class Plain : public Stream {
   );
 
  private:
-  void header() {
-    log(Level::VERBOSE, "Logger", std::optional<std::exception>(), "Init", std::source_location::current());
-  }
+  void header();
+  void footer();
 
   std::ofstream file;
   std::mutex mutex;
