@@ -16,6 +16,7 @@ target("dig-logger")
 includes("core")
 includes("util/filter")
 includes("util/union")
+includes("printer/formatter")
 includes("printer/stream")
 includes("printer/stdout")
 
