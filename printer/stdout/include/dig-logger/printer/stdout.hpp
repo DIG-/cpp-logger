@@ -24,7 +24,6 @@ class StdOut : public Stream {
  private:
   std::mutex mutex;
   void set_color(const Level level);
-  const char level_representation(const Level level);
 };
 
 }  // namespace Printer

@@ -6,6 +6,7 @@ target("printer-stdout")
     set_kind("static")
     add_deps("core")
     add_deps("printer-stream")
+    add_deps("printer-formatter")
     add_includedirs("include", {public=true})
     add_files("src/stdout.cpp")
     if is_plat("windows", "mingw") then
