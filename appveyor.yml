@@ -9,8 +9,11 @@ branches:
 image:
   - Ubuntu2004
 
+cache:
+  - ~/.xmake
 install:
-  - curl -fsSL https://xmake.io/shget.text | bash
+  - if [ ! -f "~/.xmake/profile" ]; then curl -fsSL https://xmake.io/shget.text | bash; fi
+  - source ~/.xmake/profile
   - xmake --version
 
 build_script:
