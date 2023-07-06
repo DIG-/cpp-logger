@@ -13,8 +13,8 @@ class Union : public LoggerInterface {
   static_assert(N > 1, "Union is only available with more than one LoggerInterface");
 
  public:
-  Union(std::array<std::unique_ptr<LoggerInterface>, N>& loggers) : loggers(std::move(loggers)){};
-  Union(std::array<std::unique_ptr<LoggerInterface>, N>&& loggers) : loggers(std::move(loggers)){};
+  Union(std::array<std::unique_ptr<LoggerInterface>, N>& loggers) : loggers(std::move(loggers)) { check(); };
+  Union(std::array<std::unique_ptr<LoggerInterface>, N>&& loggers) : loggers(std::move(loggers)) { check(); };
   ~Union(){};
 
   void log(                                            //
@@ -43,6 +43,18 @@ class Union : public LoggerInterface {
 
  private:
   std::array<std::unique_ptr<LoggerInterface>, N> loggers;
+
+  void check() {
+    for (auto it = loggers.begin(); it != loggers.end(); it++) {
+      if (it->get() == nullptr) [[unlikely]] {
+        throw std::runtime_error(                                 //
+            std::string("LoggerInterface at position #") +        //
+            std::to_string(std::distance(loggers.begin(), it)) +  //
+            " is null!"                                           //
+        );
+      }
+    }
+  }
 };
 
 }  // namespace Util
