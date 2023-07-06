@@ -1,0 +1,17 @@
+version: "2.0.0-{build}"
+skip_tags: true
+clone_depth: 1
+branches:
+  only:
+    - master
+    - /rc\/([\d\w\-\.]+)/
+    - config/ci
+image:
+  - Ubuntu2004
+
+install:
+  - curl -fsSL https://xmake.io/shget.text | bash
+  - xmake --version
+
+build_script:
+  - xmake b
