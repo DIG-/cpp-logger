@@ -12,6 +12,7 @@ image:
 cache:
   - ~/.xmake
 install:
+  - apt update g++ gcc
   - if [ ! -f "~/.xmake/profile" ]; then curl -fsSL https://xmake.io/shget.text | bash; fi
   - source ~/.xmake/profile
   - xmake --version
