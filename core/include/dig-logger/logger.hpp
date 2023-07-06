@@ -15,9 +15,15 @@ namespace Logger {
 
 class Logger {
  public:
-  Logger(std::unique_ptr<LoggerInterface>& logger, const std::string_view tag) : logger(std::move(logger)), tag(tag){};
-  Logger(std::shared_ptr<LoggerInterface>& logger, const std::string_view tag) : logger(logger), tag(tag){};
-  Logger(std::shared_ptr<LoggerInterface>&& logger, const std::string_view tag) : logger(logger), tag(tag){};
+  template <typename T, typename std::enable_if_t<std::is_base_of_v<LoggerInterface, T>>* = nullptr>
+  Logger(std::unique_ptr<T>& logger, const std::string_view tag) : logger(std::move(logger)), tag(tag){};
+
+  template <typename T, typename std::enable_if_t<std::is_base_of_v<LoggerInterface, T>>* = nullptr>
+  Logger(std::shared_ptr<T>& logger, const std::string_view tag) : logger(logger), tag(tag){};
+
+  template <typename T, typename std::enable_if_t<std::is_base_of_v<LoggerInterface, T>>* = nullptr>
+  Logger(std::shared_ptr<T>&& logger, const std::string_view tag) : logger(logger), tag(tag){};
+
   Logger(Logger&& other) : logger(other.logger), tag(other.tag){};
   ~Logger(){};
 
@@ -237,7 +243,7 @@ class Logger {
   }
 
  private:
-  std::shared_ptr<LoggerInterface> logger;
+  const std::shared_ptr<LoggerInterface> logger;
   const std::string_view tag;
 };
 
