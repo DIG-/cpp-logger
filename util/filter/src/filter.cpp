@@ -26,6 +26,12 @@ void Filter::log(                                           //
   parent->log(level, tag, exception, message, source);
 }
 
+void Filter::check() {
+  if (parent.get() == nullptr) [[unlikely]] {
+    throw std::runtime_error("Filter parent is null");
+  }
+}
+
 }  // namespace Util
 }  // namespace Logger
 }  // namespace DIG

@@ -9,8 +9,18 @@ namespace Util {
 
 class Filter : public LoggerInterface {
  public:
-  Filter(std::unique_ptr<LoggerInterface> parent, const Level& minimum, const Level& maximum = Level::ASSERT)
-      : parent(std::move(parent)), minimum(minimum), maximum(maximum){};
+  template <typename T, typename std::enable_if_t<std::is_base_of_v<LoggerInterface, T>>* = nullptr>
+  Filter(std::unique_ptr<T>& parent, const Level minimum, const Level maximum = Level::ASSERT)
+      : parent(std::move(parent)), minimum(minimum), maximum(maximum) {
+    check();
+  };
+
+  template <typename T, typename std::enable_if_t<std::is_base_of_v<LoggerInterface, T>>* = nullptr>
+  Filter(std::unique_ptr<T>&& parent, const Level minimum, const Level maximum = Level::ASSERT)
+      : parent(std::move(parent)), minimum(minimum), maximum(maximum) {
+    check();
+  };
+
   ~Filter(){};
 
   void log(                                            //
@@ -33,6 +43,8 @@ class Filter : public LoggerInterface {
   const std::unique_ptr<LoggerInterface> parent;
   const Level minimum;
   const Level maximum;
+
+  void check();
 };
 
 }  // namespace Util
