@@ -15,6 +15,12 @@ class Union : public LoggerInterface {
  public:
   Union(std::array<std::unique_ptr<LoggerInterface>, N>& loggers) : loggers(std::move(loggers)) { check(); };
   Union(std::array<std::unique_ptr<LoggerInterface>, N>&& loggers) : loggers(std::move(loggers)) { check(); };
+
+  template <class... Args>
+  Union(Args&&... args) : loggers({std::move(args)...}) {
+    check();
+  };
+
   ~Union(){};
 
   void log(                                            //
