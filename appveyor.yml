@@ -15,3 +15,4 @@ install:
 
 build_script:
   - xmake b
+  - xmake i -o temp
