@@ -17,5 +17,5 @@ install:
   - xmake --version
 
 build_script:
-  - xmake b
+  - xmake b -v
   - xmake i -o temp
