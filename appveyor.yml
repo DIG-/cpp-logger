@@ -35,3 +35,7 @@ for:
 build_script:
   - xmake b
   - xmake i -o install
+
+before_test:
+  - xmake b demo
+  - xmake r demo
