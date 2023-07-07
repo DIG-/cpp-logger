@@ -3,6 +3,7 @@
 #include <array>
 #include <dig-logger/interface.hpp>
 #include <memory>
+#include <stdexcept>
 
 namespace DIG {
 namespace Logger {
