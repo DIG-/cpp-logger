@@ -10,7 +10,7 @@ image:
   - Ubuntu2004
 
 cache:
-  - $HOME/.xmake
+  - $HOME/.xmake/
 install:
   - sudo apt install g++ gcc
   - if [ ! -f "~/.xmake/profile" ]; then curl -fsSL https://xmake.io/shget.text | bash; fi
@@ -18,5 +18,6 @@ install:
   - xmake --version
 
 build_script:
-  - xmake b -v
-  - xmake i -o temp
+  - echo "Just cache"
+#  - xmake b -v
+#  - xmake i -o temp
