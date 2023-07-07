@@ -7,8 +7,8 @@ branches:
     - /rc\/([\d\w\-\.]+)/
     - config/ci
 image:
-  #  - Ubuntu2004
   - Visual Studio 2022
+  - Ubuntu2004
 for:
   - matrix:
       only:
