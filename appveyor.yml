@@ -24,7 +24,7 @@ for:
       only:
         - image: Visual Studio 2022
     install:
-      - ps: If (Test-Path -Path $HOME\xmake) { $env:Path += ';$HOME\xmake' } else { Invoke-Expression (Invoke-Webrequest 'https://xmake.io/psget.text' -UseBasicParsing).Content }
+      - ps: "If (Test-Path -Path $HOME\\xmake) { $env:Path += ';$HOME\\xmake' } else { Invoke-Expression (Invoke-Webrequest 'https://xmake.io/psget.text' -UseBasicParsing).Content }"
       - ps: xmake --version
 #    cache:
 #      - "%userprofile%\\xmake"
