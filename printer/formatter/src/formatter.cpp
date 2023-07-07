@@ -8,13 +8,20 @@ namespace Logger {
 namespace Printer {
 namespace Formatter {
 
+constexpr time_t from_struct(struct tm* time) {
+  time_t years_in_days = time->tm_year * 365;
+  time_t days_in_hours = (years_in_days + time->tm_yday) * 24;
+  time_t hours_in_minutes = (days_in_hours + time->tm_hour) * 60;
+  return hours_in_minutes + time->tm_min;
+}
+
 void current_date(std::ostream& output) {
   auto now = std::chrono::system_clock::now();
   auto clock = std::chrono::system_clock::to_time_t(now);
   auto time = std::gmtime(&clock);
-  time_t offset = (time->tm_hour * 60) + time->tm_min;
+  time_t offset = from_struct(time);
   time = std::localtime(&clock);
-  offset -= (time->tm_hour * 60) + time->tm_min;
+  offset -= from_struct(time);
   char signal = "+-"[offset > 0];
   offset = std::abs(offset);
   output << std::put_time(time, "%Y-%m-%dT%H:%M:%S") << "." << std::setw(3) << std::setfill('0')

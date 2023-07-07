@@ -24,6 +24,8 @@ includes("printer/stdout")
 includes("printer/plain")
 includes("printer/html")
 
+includes("test")
+
 target("demo")
     set_default(false)
     set_kind("binary")
