@@ -20,6 +20,8 @@ for:
       - if [ ! -f "~/.xmake/profile" ]; then curl -fsSL https://xmake.io/shget.text | bash; fi
       - source ~/.xmake/profile
       - xmake --version
+    before_build:
+      - xmake b core; if [ $? -ne 0 ]; then appveyor exit; fi;
   - matrix:
       only:
         - image: Visual Studio 2022
@@ -27,6 +29,7 @@ for:
       - "%userprofile%\\xmake"
     install:
       - ps: "If (Test-Path -Path $HOME\\xmake) { $env:Path += ';$HOME\\xmake' } else { Invoke-Expression (Invoke-Webrequest 'https://xmake.io/psget.text' -UseBasicParsing).Content }"
+      - ps: "ls $HOME\\xmake"
       - ps: xmake --version
 
 build_script:
