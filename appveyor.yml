@@ -18,6 +18,5 @@ install:
   - xmake --version
 
 build_script:
-  - echo "Just cache"
-#  - xmake b -v
-#  - xmake i -o temp
+  - xmake b -v
+  - xmake i -o temp
