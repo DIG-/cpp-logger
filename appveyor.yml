@@ -23,11 +23,11 @@ for:
   - matrix:
       only:
         - image: Visual Studio 2022
-#    cache:
-#      - "%userprofile%\\xmake"
     install:
       - ps: If (Test-Path -Path $HOME\xmake) { $env:Path += ';$HOME\xmake' } else { Invoke-Expression (Invoke-Webrequest 'https://xmake.io/psget.text' -UseBasicParsing).Content }
       - ps: xmake --version
+#    cache:
+#      - "%userprofile%\\xmake"
 
 build_script:
   - xmake b -v
