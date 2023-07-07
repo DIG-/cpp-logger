@@ -8,14 +8,24 @@ branches:
     - config/ci
 image:
   - Ubuntu2004
-
-cache:
-  - $HOME/.xmake/
-install:
-  - sudo apt install g++ gcc
-  - if [ ! -f "~/.xmake/profile" ]; then curl -fsSL https://xmake.io/shget.text | bash; fi
-  - source ~/.xmake/profile
-  - xmake --version
+  - Visual Studio 2022
+for:
+  - matrix:
+      only:
+        - image: Ubuntu2004
+    cache:
+      - $HOME/.xmake/
+    install:
+      - sudo apt install g++ gcc
+      - if [ ! -f "~/.xmake/profile" ]; then curl -fsSL https://xmake.io/shget.text | bash; fi
+      - source ~/.xmake/profile
+      - xmake --version
+  - matrix:
+      only:
+        - image: Visual Studio 2022
+    install:
+      - ps: Invoke-Expression (Invoke-Webrequest 'https://xmake.io/psget.text' -UseBasicParsing).Content
+      - ps: xmake --version
 
 build_script:
   - echo "Just cache"
