@@ -30,5 +30,5 @@ for:
       - ps: xmake --version
 
 build_script:
-  - xmake b -v
-#  - xmake i -o temp
+  - xmake b
+  - xmake i -o install
