@@ -7,7 +7,7 @@ branches:
     - /rc\/([\d\w\-\.]+)/
     - config/ci
 image:
-#  - Ubuntu2004
+  #  - Ubuntu2004
   - Visual Studio 2022
 for:
   - matrix:
@@ -24,7 +24,7 @@ for:
       only:
         - image: Visual Studio 2022
     cache:
-      - $HOME\xmake
+      - "%userprofile%\\xmake"
     install:
       - ps: If (Test-Path -Path $HOME\xmake) { $env:Path += ';$HOME\xmake' } else { Invoke-Expression (Invoke-Webrequest 'https://xmake.io/psget.text' -UseBasicParsing).Content }
       - ps: xmake --version
