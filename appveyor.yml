@@ -30,6 +30,5 @@ for:
       - ps: xmake --version
 
 build_script:
-  - echo "Just cache"
-#  - xmake b -v
+  - xmake b -v
 #  - xmake i -o temp
