@@ -1,7 +1,6 @@
 #include "dig-logger/printer/formatter.hpp"
 
 #include <chrono>
-#include <cstdint>
 #include <iomanip>
 
 namespace DIG {
@@ -13,7 +12,7 @@ void current_date(std::ostream& output) {
   auto now = std::chrono::system_clock::now();
   auto clock = std::chrono::system_clock::to_time_t(now);
   auto time = std::gmtime(&clock);
-  uint_fast16_t offset = (time->tm_hour * 60) + time->tm_min;
+  time_t offset = (time->tm_hour * 60) + time->tm_min;
   time = std::localtime(&clock);
   offset -= (time->tm_hour * 60) + time->tm_min;
   char signal = "+-"[offset > 0];
