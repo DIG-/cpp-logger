@@ -1,5 +1,7 @@
 #include "dig-logger/util/filter.hpp"
 
+#include <stdexcept>
+
 namespace DIG {
 namespace Logger {
 namespace Util {
