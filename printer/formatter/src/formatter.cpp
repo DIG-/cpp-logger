@@ -1,6 +1,7 @@
 #include "dig-logger/printer/formatter.hpp"
 
 #include <chrono>
+#include <cstdint>
 #include <iomanip>
 
 namespace DIG {
