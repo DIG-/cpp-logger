@@ -39,3 +39,6 @@ build_script:
 before_test:
   - xmake b demo
   - xmake r demo
+test_script:
+  - ps: ./test/appveyor.ps1 test-filter-minimum
+  - ps: ./test/appveyor.ps1 test-filter-maximum
