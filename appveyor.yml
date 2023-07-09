@@ -39,6 +39,7 @@ build_script:
 before_test:
   - xmake b demo
   - xmake r demo
+  - xmake macro --import=test/appveyor.lua appveyor
 test_script:
-  - ps: ./test/appveyor.ps1 test-filter-minimum
-  - ps: ./test/appveyor.ps1 test-filter-maximum
+  - ps: xmake macro appveyor -t test-filter-minimum
+  - ps: xmake macro appveyor -t test-filter-maximum
