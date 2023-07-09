@@ -15,12 +15,11 @@ for:
         - image: Ubuntu2004
     cache:
       - $HOME/.xmake/
+      - $HOME/.local/bin
       - $HOME/.local/share/xmake
     install:
       - sudo apt install g++ gcc
-      - cat ~/.xmake/profile
-      - if [ ! -f "~/.xmake/profile" ]; then curl -fsSL https://xmake.io/shget.text | bash; fi
-      - ls ~/.local/bin
+      - if [ ! -f ~/.local/bin/xmake ]; then curl -fsSL https://xmake.io/shget.text | bash; fi
       - source ~/.xmake/profile
       - xmake --version
     before_build:
