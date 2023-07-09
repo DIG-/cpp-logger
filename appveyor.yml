@@ -19,8 +19,8 @@ for:
     install:
       - sudo apt install g++ gcc
       - cat ~/.xmake/profile
-      - ls ~/.local/bin
       - if [ ! -f "~/.xmake/profile" ]; then curl -fsSL https://xmake.io/shget.text | bash; fi
+      - ls ~/.local/bin
       - source ~/.xmake/profile
       - xmake --version
     before_build:
