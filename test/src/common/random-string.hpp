@@ -3,16 +3,15 @@
 #include <algorithm>
 #include <string>
 
+const char random_charset[] =
+    "0123456789"
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    "abcdefghijklmnopqrstuvwxyz";
+
+const char random_char() { return random_charset[rand() % (sizeof(random_charset) - 1)]; }
+
 std::string random_string(size_t length) {
-  auto randchar = []() -> char {
-    const char charset[] =
-        "0123456789"
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-        "abcdefghijklmnopqrstuvwxyz";
-    const size_t max_index = (sizeof(charset) - 1);
-    return charset[rand() % max_index];
-  };
   std::string str(length, 0);
-  std::generate_n(str.begin(), length, randchar);
+  std::generate_n(str.begin(), length, ::random_char);
   return str;
 }
