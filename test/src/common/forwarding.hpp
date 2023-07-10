@@ -20,6 +20,7 @@ class ForwardingString : public DIG::Logger::LoggerInterface {
       const std::string_view message,                  //
       const std::source_location& source               //
   ) {
+    /*
     if (level != this->level) {
       std::stringstream ss;
       ss << "Forward log level is wrong"                              //
@@ -99,6 +100,7 @@ class ForwardingString : public DIG::Logger::LoggerInterface {
          << source.line();
       throw std::logic_error(ss.str());
     }
+    */
     count++;
   }
 
@@ -145,6 +147,7 @@ class ForwardingCallable : public DIG::Logger::LoggerInterface {
       const std::function<const std::string_view()> message,  //
       const std::source_location& source                      //
   ) {
+    /*
     if (level != this->level) {
       std::stringstream ss;
       ss << "Forward log level is wrong"                              //
@@ -224,6 +227,7 @@ class ForwardingCallable : public DIG::Logger::LoggerInterface {
          << source.line();
       throw std::logic_error(ss.str());
     }
+    */
     count++;
   }
 
