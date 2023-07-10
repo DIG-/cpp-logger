@@ -15,11 +15,13 @@ function main(argv)
     if not build then
         local time = os.mclock() - start
         exec(format("appveyor AddTest \"%s\" -Framework \"Custom\" -Filename \"%s\" -Duration %d -Outcome Failed -ErrorMessage \"Failed to build\"", target, target, time))
+        return 0
     end
     local test = exec(format("xmake r %s", target))
     if not test then
         local time = os.mclock() - start
         exec(format("appveyor AddTest \"%s\" -Framework \"Custom\" -Filename \"%s\" -Duration %d -Outcome Failed -ErrorMessage \"Error running test\"", target, target, time))
+        return 0
     end
     local time = os.mclock() - start
     exec(format("appveyor AddTest \"%s\" -Framework \"Custom\" -Filename \"%s\" -Duration %d -Outcome Passed", target, target, time))
