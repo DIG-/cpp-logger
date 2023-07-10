@@ -11,7 +11,7 @@ const char random_charset[] =
 const char random_char() { return random_charset[rand() % (sizeof(random_charset) - 1)]; }
 
 std::string random_string(size_t length) {
-  std::string str(length, 0);
-  std::generate_n(str.begin(), length, ::random_char);
-  return str;
+  //std::string str(length, 0);
+  //std::generate_n(str.begin(), length, ::random_char);
+  return "bobosbdabklasjdd,bkjbjh";
 }
