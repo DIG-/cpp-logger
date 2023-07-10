@@ -55,7 +55,7 @@ class ForwardingString : public DIG::Logger::LoggerInterface {
            << "\nReceived: "                          //
            << typeid(exception.value()).name();
         throw std::logic_error(ss.str());
-      } else if (exception.value().what() != this->exception.value().what()) {
+      } else if (std::string_view(exception.value().what()) != std::string_view(this->exception.value().what())) {
         std::stringstream ss;
         ss << "Forward log exception is wrong"  //
            << "\nExpected: "                    //
