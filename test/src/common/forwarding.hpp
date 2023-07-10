@@ -65,7 +65,6 @@ class ForwardingString : public DIG::Logger::LoggerInterface {
         throw std::logic_error(ss.str());
       }
     }
-    /*
     if (message != this->message) {
       std::stringstream ss;
       ss << "Forward log message is wrong"  //
@@ -75,7 +74,7 @@ class ForwardingString : public DIG::Logger::LoggerInterface {
          << message;
       throw std::logic_error(ss.str());
     }
-    if (source.file_name() != this->source.file_name()) {
+    if (std::string_view(source.file_name()) != std::string_view(this->source.file_name())) {
       std::stringstream ss;
       ss << "Forward log source is wrong"  //
          << "\nExpected: "                 //
@@ -100,7 +99,6 @@ class ForwardingString : public DIG::Logger::LoggerInterface {
          << source.line();
       throw std::logic_error(ss.str());
     }
-    */
     count++;
   }
 
