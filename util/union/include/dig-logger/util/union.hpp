@@ -4,6 +4,7 @@
 #include <dig-logger/interface.hpp>
 #include <memory>
 #include <stdexcept>
+#include <string>
 
 namespace DIG {
 namespace Logger {
