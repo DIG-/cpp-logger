@@ -3,6 +3,7 @@
 #include <dig-logger/interface.hpp>
 #include <dig-logger/printer/formatter.hpp>
 #include <stdexcept>
+#include <string>
 #include <typeinfo>
 
 class ForwardingString : public DIG::Logger::LoggerInterface {
