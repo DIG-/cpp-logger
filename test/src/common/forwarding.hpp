@@ -38,7 +38,6 @@ class ForwardingString : public DIG::Logger::LoggerInterface {
          << tag;
       throw std::logic_error(ss.str());
     }
-    /*
     if (exception.has_value() != this->exception.has_value()) {
       std::stringstream ss;
       ss << "Forward log exception is wrong"                                                 //
@@ -66,6 +65,7 @@ class ForwardingString : public DIG::Logger::LoggerInterface {
         throw std::logic_error(ss.str());
       }
     }
+    /*
     if (message != this->message) {
       std::stringstream ss;
       ss << "Forward log message is wrong"  //
