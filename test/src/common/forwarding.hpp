@@ -2,8 +2,8 @@
 
 #include <dig-logger/interface.hpp>
 #include <dig-logger/printer/formatter.hpp>
+#include <sstream>
 #include <stdexcept>
-#include <string>
 #include <typeinfo>
 
 class ForwardingString : public DIG::Logger::LoggerInterface {
@@ -21,46 +21,83 @@ class ForwardingString : public DIG::Logger::LoggerInterface {
       const std::source_location& source               //
   ) {
     if (level != this->level) {
-      throw std::logic_error(std::string("Forward log level is wrong\nExpected: ") +
-                             std::string(DIG::Logger::Printer::Formatter::level_long(this->level)) +
-                             std::string("\nReceived: ") + DIG::Logger::Printer::Formatter::level_long(level));
+      std::stringstream ss;
+      ss << "Forward log level is wrong"                              //
+         << "\nExpected: "                                            //
+         << DIG::Logger::Printer::Formatter::level_long(this->level)  //
+         << "\nReceived: "                                            //
+         << DIG::Logger::Printer::Formatter::level_long(level);
+      throw std::logic_error(ss.str());
     }
     if (tag != this->tag) {
-      throw std::logic_error(std::string("Forward log tag is wrong\nExpected: ") + std::string(this->tag) +
-                             std::string("\nReceived: ") + std::string(tag));
+      std::stringstream ss;
+      ss << "Forward log tag is wrong"  //
+         << "\nExpected: "              //
+         << this->tag                   //
+         << "\nReceived: "              //
+         << tag;
+      throw std::logic_error(ss.str());
     }
     if (exception.has_value() != this->exception.has_value()) {
-      throw std::logic_error(
-          std::string("Forward log exception is wrong\nExcepted: ") +
-          std::string(this->exception.has_value() ? typeid(this->exception.value()).name() : "none") +
-          std::string("\nReceived: ") +
-          std::string(this->exception.has_value() ? typeid(this->exception.value()).name() : "none"));
+      std::stringstream ss;
+      ss << "Forward log exception is wrong"                                                 //
+         << "\nExpected: "                                                                   //
+         << (this->exception.has_value() ? typeid(this->exception.value()).name() : "none")  //
+         << "\nReceived: "                                                                   //
+         << (exception.has_value() ? typeid(exception.value()).name() : "none");
+      throw std::logic_error(ss.str());
     } else if (exception.has_value()) {
       if (typeid(exception.value()) != typeid(this->exception.value())) {
-        throw std::logic_error(std::string("Forward log exception is wrong\nExcepted: ") +
-                               std::string(typeid(this->exception.value()).name()) + std::string("\nReceived: ") +
-                               std::string(typeid(this->exception.value()).name()));
+        std::stringstream ss;
+        ss << "Forward log exception is wrong"        //
+           << "\nExpected: "                          //
+           << typeid(this->exception.value()).name()  //
+           << "\nReceived: "                          //
+           << typeid(exception.value()).name();
+        throw std::logic_error(ss.str());
       } else if (exception.value().what() != this->exception.value().what()) {
-        throw std::logic_error(std::string("Forward log exception is wrong\nExcepted: ") +
-                               std::string(this->exception.value().what()) + std::string("\nReceived: ") +
-                               std::string(this->exception.value().what()));
+        std::stringstream ss;
+        ss << "Forward log exception is wrong"  //
+           << "\nExpected: "                    //
+           << this->exception.value().what()    //
+           << "\nReceived: "                    //
+           << exception.value().what();
+        throw std::logic_error(ss.str());
       }
     }
     if (message != this->message) {
-      throw std::logic_error(std::string("Forward log message is wrong\nExpected: ") + std::string(this->message) +
-                             std::string("\nReceived: ") + std::string(message));
+      std::stringstream ss;
+      ss << "Forward log message is wrong"  //
+         << "\nExpected: "                  //
+         << this->message                   //
+         << "\nReceived: "                  //
+         << message;
+      throw std::logic_error(ss.str());
     }
     if (source.file_name() != this->source.file_name()) {
-      throw std::logic_error(std::string("Forward log source is wrong\nExpected: ") +
-                             std::string(this->source.file_name()) + std::string("\n Received: ") + source.file_name());
+      std::stringstream ss;
+      ss << "Forward log source is wrong"  //
+         << "\nExpected: "                 //
+         << this->source.file_name()       //
+         << "\nReceived: "                 //
+         << source.file_name();
+      throw std::logic_error(ss.str());
     } else if (source.line() != this->source.line()) {
-      throw std::logic_error(std::string("Forward log source is wrong\nExpected line: ") +
-                             std::to_string(this->source.line()) + std::string("\n Received line: ") +
-                             std::to_string(source.line()));
+      std::stringstream ss;
+      ss << "Forward log source is wrong"  //
+         << "\nExpected line: "            //
+         << this->source.line()            //
+         << "\nReceived line: "            //
+         << source.line();
+      throw std::logic_error(ss.str());
     } else if (source.column() != this->source.column()) {
-      throw std::logic_error(std::string("Forward log source is wrong\nExpected column: ") +
-                             std::to_string(this->source.column()) + std::string("\n Received column: ") +
-                             std::to_string(source.column()));
+      std::stringstream ss;
+      ss << "Forward log source is wrong"  //
+         << "\nExpected column: "          //
+         << this->source.line()            //
+         << "\nReceived column: "          //
+         << source.line();
+      throw std::logic_error(ss.str());
     }
     count++;
   }
@@ -109,46 +146,83 @@ class ForwardingCallable : public DIG::Logger::LoggerInterface {
       const std::source_location& source                      //
   ) {
     if (level != this->level) {
-      throw std::logic_error(std::string("Forward log level is wrong\nExpected: ") +
-                             std::string(DIG::Logger::Printer::Formatter::level_long(this->level)) +
-                             std::string("\nReceived: ") + DIG::Logger::Printer::Formatter::level_long(level));
+      std::stringstream ss;
+      ss << "Forward log level is wrong"                              //
+         << "\nExpected: "                                            //
+         << DIG::Logger::Printer::Formatter::level_long(this->level)  //
+         << "\nReceived: "                                            //
+         << DIG::Logger::Printer::Formatter::level_long(level);
+      throw std::logic_error(ss.str());
     }
     if (tag != this->tag) {
-      throw std::logic_error(std::string("Forward log tag is wrong\nExpected: ") + std::string(this->tag) +
-                             std::string("\nReceived: ") + std::string(tag));
+      std::stringstream ss;
+      ss << "Forward log tag is wrong"  //
+         << "\nExpected: "              //
+         << this->tag                   //
+         << "\nReceived: "              //
+         << tag;
+      throw std::logic_error(ss.str());
     }
     if (exception.has_value() != this->exception.has_value()) {
-      throw std::logic_error(
-          std::string("Forward log exception is wrong\nExcepted: ") +
-          std::string(this->exception.has_value() ? typeid(this->exception.value()).name() : "none") +
-          std::string("\nReceived: ") +
-          std::string(this->exception.has_value() ? typeid(this->exception.value()).name() : "none"));
+      std::stringstream ss;
+      ss << "Forward log exception is wrong"                                                 //
+         << "\nExpected: "                                                                   //
+         << (this->exception.has_value() ? typeid(this->exception.value()).name() : "none")  //
+         << "\nReceived: "                                                                   //
+         << (exception.has_value() ? typeid(exception.value()).name() : "none");
+      throw std::logic_error(ss.str());
     } else if (exception.has_value()) {
       if (typeid(exception.value()) != typeid(this->exception.value())) {
-        throw std::logic_error(std::string("Forward log exception is wrong\nExcepted: ") +
-                               std::string(typeid(this->exception.value()).name()) + std::string("\nReceived: ") +
-                               std::string(typeid(this->exception.value()).name()));
+        std::stringstream ss;
+        ss << "Forward log exception is wrong"        //
+           << "\nExpected: "                          //
+           << typeid(this->exception.value()).name()  //
+           << "\nReceived: "                          //
+           << typeid(exception.value()).name();
+        throw std::logic_error(ss.str());
       } else if (exception.value().what() != this->exception.value().what()) {
-        throw std::logic_error(std::string("Forward log exception is wrong\nExcepted: ") +
-                               std::string(this->exception.value().what()) + std::string("\nReceived: ") +
-                               std::string(this->exception.value().what()));
+        std::stringstream ss;
+        ss << "Forward log exception is wrong"  //
+           << "\nExpected: "                    //
+           << this->exception.value().what()    //
+           << "\nReceived: "                    //
+           << exception.value().what();
+        throw std::logic_error(ss.str());
       }
     }
     if (message() != this->message) {
-      throw std::logic_error(std::string("Forward log message is wrong\nExpected: ") + std::string(this->message) +
-                             std::string("\nReceived: ") + std::string(message()));
+      std::stringstream ss;
+      ss << "Forward log message is wrong"  //
+         << "\nExpected: "                  //
+         << this->message                   //
+         << "\nReceived: "                  //
+         << message();
+      throw std::logic_error(ss.str());
     }
     if (source.file_name() != this->source.file_name()) {
-      throw std::logic_error(std::string("Forward log source is wrong\nExpected: ") +
-                             std::string(this->source.file_name()) + std::string("\n Received: ") + source.file_name());
+      std::stringstream ss;
+      ss << "Forward log source is wrong"  //
+         << "\nExpected: "                 //
+         << this->source.file_name()       //
+         << "\nReceived: "                 //
+         << source.file_name();
+      throw std::logic_error(ss.str());
     } else if (source.line() != this->source.line()) {
-      throw std::logic_error(std::string("Forward log source is wrong\nExpected line: ") +
-                             std::to_string(this->source.line()) + std::string("\n Received line: ") +
-                             std::to_string(source.line()));
+      std::stringstream ss;
+      ss << "Forward log source is wrong"  //
+         << "\nExpected line: "            //
+         << this->source.line()            //
+         << "\nReceived line: "            //
+         << source.line();
+      throw std::logic_error(ss.str());
     } else if (source.column() != this->source.column()) {
-      throw std::logic_error(std::string("Forward log source is wrong\nExpected column: ") +
-                             std::to_string(this->source.column()) + std::string("\n Received column: ") +
-                             std::to_string(source.column()));
+      std::stringstream ss;
+      ss << "Forward log source is wrong"  //
+         << "\nExpected column: "          //
+         << this->source.line()            //
+         << "\nReceived column: "          //
+         << source.line();
+      throw std::logic_error(ss.str());
     }
     count++;
   }
