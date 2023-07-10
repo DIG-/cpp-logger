@@ -42,6 +42,10 @@ before_test:
   - xmake r demo
   - xmake macro --import=test/appveyor.lua appveyor
 test_script:
+  - xmake macro appveyor -t test-core-logger
+  - xmake macro appveyor -t test-filter-forwarding
   - xmake macro appveyor -t test-filter-minimum
   - xmake macro appveyor -t test-filter-maximum
   - xmake macro appveyor -t test-filter-null-safety
+  - xmake macro appveyor -t test-union-forwarding
+  - xmake macro appveyor -t test-union-null-safety
