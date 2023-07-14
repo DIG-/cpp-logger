@@ -1,0 +1,51 @@
+version: "2.0.0-{build}"
+skip_tags: true
+clone_depth: 1
+branches:
+  only:
+    - master
+    - /rc\/([\d\w\-\.]+)/
+    - config/ci
+image:
+  - Visual Studio 2022
+  - Ubuntu2004
+for:
+  - matrix:
+      only:
+        - image: Ubuntu2004
+    cache:
+      - $HOME/.xmake/
+      - $HOME/.local/bin
+      - $HOME/.local/share/xmake
+    install:
+      - sudo apt install g++ gcc
+      - if [ ! -f ~/.local/bin/xmake ]; then curl -fsSL https://xmake.io/shget.text | bash; fi
+      - source ~/.xmake/profile
+      - xmake --version
+    before_build:
+      - xmake b core; if [ $? -ne 0 ]; then appveyor exit; fi;
+  - matrix:
+      only:
+        - image: Visual Studio 2022
+    cache:
+      - "%userprofile%\\xmake"
+    install:
+      - ps: "If (Test-Path -Path $HOME\\xmake) { $env:Path += \";$HOME\\xmake\" } else { Invoke-Expression (Invoke-Webrequest 'https://xmake.io/psget.text' -UseBasicParsing).Content }"
+      - ps: xmake --version
+
+build_script:
+  - xmake b
+  - xmake i -o install
+
+before_test:
+  - xmake b demo
+  - xmake r demo
+  - xmake macro --import=test/appveyor.lua appveyor
+test_script:
+  - xmake macro appveyor -t test-core-logger
+  - xmake macro appveyor -t test-filter-forwarding
+  - xmake macro appveyor -t test-filter-minimum
+  - xmake macro appveyor -t test-filter-maximum
+  - xmake macro appveyor -t test-filter-null-safety
+  - xmake macro appveyor -t test-union-forwarding
+  - xmake macro appveyor -t test-union-null-safety
