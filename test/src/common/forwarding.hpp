@@ -55,7 +55,7 @@ class ForwardingString : public DIG::Logger::LoggerInterface {
            << "\nReceived: "                          //
            << typeid(exception.value()).name();
         throw std::logic_error(ss.str());
-      } else if (exception.value().what() != this->exception.value().what()) {
+      } else if (std::string_view(exception.value().what()) != std::string_view(this->exception.value().what())) {
         std::stringstream ss;
         ss << "Forward log exception is wrong"  //
            << "\nExpected: "                    //
@@ -74,7 +74,7 @@ class ForwardingString : public DIG::Logger::LoggerInterface {
          << message;
       throw std::logic_error(ss.str());
     }
-    if (source.file_name() != this->source.file_name()) {
+    if (std::string_view(source.file_name()) != std::string_view(this->source.file_name())) {
       std::stringstream ss;
       ss << "Forward log source is wrong"  //
          << "\nExpected: "                 //
@@ -180,7 +180,7 @@ class ForwardingCallable : public DIG::Logger::LoggerInterface {
            << "\nReceived: "                          //
            << typeid(exception.value()).name();
         throw std::logic_error(ss.str());
-      } else if (exception.value().what() != this->exception.value().what()) {
+      } else if (std::string_view(exception.value().what()) != std::string_view(this->exception.value().what())) {
         std::stringstream ss;
         ss << "Forward log exception is wrong"  //
            << "\nExpected: "                    //
@@ -199,7 +199,7 @@ class ForwardingCallable : public DIG::Logger::LoggerInterface {
          << message();
       throw std::logic_error(ss.str());
     }
-    if (source.file_name() != this->source.file_name()) {
+    if (std::string_view(source.file_name()) != std::string_view(this->source.file_name())) {
       std::stringstream ss;
       ss << "Forward log source is wrong"  //
          << "\nExpected: "                 //
