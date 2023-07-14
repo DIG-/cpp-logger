@@ -5,7 +5,6 @@ branches:
   only:
     - master
     - /rc\/([\d\w\-\.]+)/
-    - config/ci
 image:
   - Visual Studio 2022
   - Ubuntu2004
