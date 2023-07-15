@@ -14,6 +14,27 @@ target("dig-logger")
     add_deps("printer-html", {public=true})
     add_files("core/src/dummy.cpp")
     set_policy("build.merge_archive", true)
+    after_load(function (target)
+        local includes = {}
+        function cp_headerfiles(deps)
+            for _, dep in pairs(deps) do
+                local headers = dep:get("headerfiles")
+                if type(headers) == "string" then
+                    includes[headers] = true
+                elseif type(headers) == "table" then
+                    for _, header in pairs(headers) do
+                        includes[header] = true
+                    end
+                end
+                cp_headerfiles(dep:orderdeps())
+            end
+        end
+        cp_headerfiles(target:orderdeps())
+        for header, _ in pairs(includes) do
+            target:add("headerfiles", header)
+        end
+    end)
+target_end()
 
 includes("core")
 includes("util/filter")
