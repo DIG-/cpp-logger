@@ -5,6 +5,7 @@ target("core")
     set_default(false)
     set_kind("headeronly")
     add_includedirs("include", {public=true})
+    add_headerfiles("include/(**)")
     on_config(function(target)
         if not target:has_cxxincludes("source_location") then 
             raise("Require compiler with support to std::source_location")

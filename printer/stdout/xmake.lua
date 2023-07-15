@@ -9,6 +9,7 @@ target("printer-stdout")
     add_deps("printer-stream")
     add_deps("printer-formatter")
     add_includedirs("include", {public=true})
+    add_headerfiles("include/(**)")
     add_files("src/stdout.cpp")
     if is_plat("windows", "mingw") then
         add_files("src/color/windows.cpp")
