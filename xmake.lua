@@ -1,6 +1,6 @@
 add_rules("mode.debug", "mode.release")
 set_project("dig-logger")
-set_version("2.0.0")
+set_version("2.0.1")
 set_languages("c++20")
 
 target("dig-logger")

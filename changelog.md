@@ -1,5 +1,9 @@
 Changelog
 =========
+2.0.1
+-----
+- Adjust header instalation
+
 2.0.0
 =====
 - Migrated to [xmake](https://xmake.io/) build tools
