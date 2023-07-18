@@ -6,7 +6,7 @@ using namespace DIG::Logger;
 int main(int argc, char** argv) {
   try {
     Util::Filter test1(std::unique_ptr<LoggerInterface>(nullptr), Level::NONE);
-  } catch (std::runtime_error& error) {
+  } catch (std::logic_error& error) {
     return 0;
   }
   return -1;
