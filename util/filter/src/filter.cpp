@@ -30,7 +30,7 @@ void Filter::log(                                           //
 
 void Filter::check() {
   if (parent.get() == nullptr) [[unlikely]] {
-    throw std::runtime_error("Filter parent is null");
+    throw std::logic_error("Filter parent is null");
   }
 }
 

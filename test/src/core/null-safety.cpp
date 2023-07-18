@@ -1,11 +1,11 @@
-#include <dig-logger/util/filter.hpp>
+#include <dig-logger/creator.hpp>
 #include <stdexcept>
 
 using namespace DIG::Logger;
 
 int main(int argc, char** argv) {
   try {
-    Util::Filter test1(std::unique_ptr<LoggerInterface>(nullptr), Level::NONE);
+    auto logger = create(std::shared_ptr<LoggerInterface>(nullptr), "test");
   } catch (std::logic_error& error) {
     return 0;
   }
