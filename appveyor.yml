@@ -1,4 +1,4 @@
-version: "2.0.1-{build}"
+version: "2.1.0-{build}"
 skip_tags: true
 clone_depth: 1
 branches:
@@ -42,6 +42,8 @@ before_test:
   - xmake macro --import=test/appveyor.lua appveyor
 test_script:
   - xmake macro appveyor -t test-core-logger
+  - xmake macro appveyor -t test-core-null-safety
+  - xmake macro appveyor -t test-core-type-check
   - xmake macro appveyor -t test-filter-forwarding
   - xmake macro appveyor -t test-filter-minimum
   - xmake macro appveyor -t test-filter-maximum

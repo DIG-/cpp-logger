@@ -55,7 +55,7 @@ class Union : public LoggerInterface {
   void check() {
     for (auto it = loggers.begin(); it != loggers.end(); it++) {
       if (it->get() == nullptr) [[unlikely]] {
-        throw std::runtime_error(                                 //
+        throw std::logic_error(                                 //
             std::string("LoggerInterface at position #") +        //
             std::to_string(std::distance(loggers.begin(), it)) +  //
             " is null!"                                           //
