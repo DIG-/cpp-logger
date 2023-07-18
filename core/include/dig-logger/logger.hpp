@@ -3,247 +3,129 @@
 #include <exception>
 #include <functional>
 #include <memory>
-#include <optional>
 #include <source_location>
 #include <string_view>
-
-#include "interface.hpp"
-#include "level.hpp"
 
 namespace DIG {
 namespace Logger {
 
 class Logger {
  public:
-  template <typename T, typename std::enable_if_t<std::is_base_of_v<LoggerInterface, T>>* = nullptr>
-  Logger(std::unique_ptr<T>& logger, const std::string_view tag) : logger(std::move(logger)), tag(tag){};
+  Logger(std::shared_ptr<void>& logger, const std::string_view tag) : logger(logger), tag(tag) { check(); };
+  Logger(std::shared_ptr<void>&& logger, const std::string_view tag) : logger(logger), tag(tag) { check(); };
 
-  template <typename T, typename std::enable_if_t<std::is_base_of_v<LoggerInterface, T>>* = nullptr>
-  Logger(std::shared_ptr<T>& logger, const std::string_view tag) : logger(logger), tag(tag){};
-
-  template <typename T, typename std::enable_if_t<std::is_base_of_v<LoggerInterface, T>>* = nullptr>
-  Logger(std::shared_ptr<T>&& logger, const std::string_view tag) : logger(logger), tag(tag){};
-
-  Logger(Logger&& other) : logger(other.logger), tag(other.tag){};
+  Logger(Logger& other) noexcept : logger(other.logger), tag(other.tag){};
+  Logger(Logger& other, const std::string_view tag) noexcept : logger(other.logger), tag(tag){};
+  Logger(Logger&& other) noexcept : logger(other.logger), tag(other.tag){};
   ~Logger(){};
 
   using Message = const std::string_view;
   using Lambda = const std::function<Message()>;
   using Source = std::source_location;
   using Exception = std::exception;
-  using OptException = std::optional<Exception>;
 
   //****************
   //  Assert Block
   //****************
-  inline void assert(Message message, const Source source = Source::current()) {
-    logger->log(Level::ASSERT, tag, OptException(), message, source);
-  }
-  inline void assert(Lambda message, const Source source = Source::current()) {
-    logger->log(Level::ASSERT, tag, OptException(), message, source);
-  }
-  inline void assert(const Exception& exception, const Source source = Source::current()) {
-    logger->log(Level::ASSERT, tag, OptException(exception), "", source);
-  }
-  inline void assert(const Exception& exception, Message message, const Source source = Source::current()) {
-    logger->log(Level::ASSERT, tag, OptException(exception), message, source);
-  }
-  inline void assert(const Exception& exception, Lambda message, const Source source = Source::current()) {
-    logger->log(Level::ASSERT, tag, OptException(exception), message, source);
-  }
+  void assert(Message message, const Source source = Source::current());
+  void assert(Lambda message, const Source source = Source::current());
+  void assert(const Exception& exception, const Source source = Source::current());
+  void assert(const Exception& exception, Message message, const Source source = Source::current());
+  void assert(const Exception& exception, Lambda message, const Source source = Source::current());
 
   //***************
   //  Error Block
   //***************
-  inline void error(Message message, const Source source = Source::current()) {
-    logger->log(Level::ERROR, tag, OptException(), message, source);
-  }
-  inline void error(Lambda message, const Source source = Source::current()) {
-    logger->log(Level::ERROR, tag, OptException(), message, source);
-  }
-  inline void error(const Exception& exception, const Source source = Source::current()) {
-    logger->log(Level::ERROR, tag, OptException(exception), "", source);
-  }
-  inline void error(const Exception& exception, Message message, const Source source = Source::current()) {
-    logger->log(Level::ERROR, tag, OptException(exception), message, source);
-  }
-  inline void error(const Exception& exception, Lambda message, const Source source = Source::current()) {
-    logger->log(Level::ERROR, tag, OptException(exception), message, source);
-  }
+  void error(Message message, const Source source = Source::current());
+  void error(Lambda message, const Source source = Source::current());
+  void error(const Exception& exception, const Source source = Source::current());
+  void error(const Exception& exception, Message message, const Source source = Source::current());
+  void error(const Exception& exception, Lambda message, const Source source = Source::current());
 
   //*****************
   //  Warning Block
   //*****************
-  inline void warning(Message message, const Source source = Source::current()) {
-    logger->log(Level::WARNING, tag, OptException(), message, source);
-  }
-  inline void warning(Lambda message, const Source source = Source::current()) {
-    logger->log(Level::WARNING, tag, OptException(), message, source);
-  }
-  inline void warning(const Exception& exception, const Source source = Source::current()) {
-    logger->log(Level::WARNING, tag, OptException(exception), "", source);
-  }
-  inline void warning(const Exception& exception, Message message, const Source source = Source::current()) {
-    logger->log(Level::WARNING, tag, OptException(exception), message, source);
-  }
-  inline void warning(const Exception& exception, Lambda message, const Source source = Source::current()) {
-    logger->log(Level::WARNING, tag, OptException(exception), message, source);
-  }
+  void warning(Message message, const Source source = Source::current());
+  void warning(Lambda message, const Source source = Source::current());
+  void warning(const Exception& exception, const Source source = Source::current());
+  void warning(const Exception& exception, Message message, const Source source = Source::current());
+  void warning(const Exception& exception, Lambda message, const Source source = Source::current());
 
   //*********************
   //  Information Block
   //*********************
-  inline void info(Message message, const Source source = Source::current()) {
-    logger->log(Level::INFORMATION, tag, OptException(), message, source);
-  }
-  inline void info(Lambda message, const Source source = Source::current()) {
-    logger->log(Level::INFORMATION, tag, OptException(), message, source);
-  }
-  inline void info(const Exception& exception, const Source source = Source::current()) {
-    logger->log(Level::INFORMATION, tag, OptException(exception), "", source);
-  }
-  inline void info(const Exception& exception, Message message, const Source source = Source::current()) {
-    logger->log(Level::INFORMATION, tag, OptException(exception), message, source);
-  }
-  inline void info(const Exception& exception, Lambda message, const Source source = Source::current()) {
-    logger->log(Level::INFORMATION, tag, OptException(exception), message, source);
-  }
+  void info(Message message, const Source source = Source::current());
+  void info(Lambda message, const Source source = Source::current());
+  void info(const Exception& exception, const Source source = Source::current());
+  void info(const Exception& exception, Message message, const Source source = Source::current());
+  void info(const Exception& exception, Lambda message, const Source source = Source::current());
 
   //***************
   //  Debug Block
   //***************
-  inline void debug(Message message, const Source source = Source::current()) {
-    logger->log(Level::DEBUG, tag, OptException(), message, source);
-  }
-  inline void debug(Lambda message, const Source source = Source::current()) {
-    logger->log(Level::DEBUG, tag, OptException(), message, source);
-  }
-  inline void debug(const Exception& exception, const Source source = Source::current()) {
-    logger->log(Level::DEBUG, tag, OptException(exception), "", source);
-  }
-  inline void debug(const Exception& exception, Message message, const Source source = Source::current()) {
-    logger->log(Level::DEBUG, tag, OptException(exception), message, source);
-  }
-  inline void debug(const Exception& exception, Lambda message, const Source source = Source::current()) {
-    logger->log(Level::DEBUG, tag, OptException(exception), message, source);
-  }
+  void debug(Message message, const Source source = Source::current());
+  void debug(Lambda message, const Source source = Source::current());
+  void debug(const Exception& exception, const Source source = Source::current());
+  void debug(const Exception& exception, Message message, const Source source = Source::current());
+  void debug(const Exception& exception, Lambda message, const Source source = Source::current());
 
   //*****************
   //  Verbose Block
   //*****************
-  inline void verbose(Message message, const Source source = Source::current()) {
-    logger->log(Level::VERBOSE, tag, OptException(), message, source);
-  }
-  inline void verbose(Lambda message, const Source source = Source::current()) {
-    logger->log(Level::VERBOSE, tag, OptException(), message, source);
-  }
-  inline void verbose(const Exception& exception, const Source source = Source::current()) {
-    logger->log(Level::VERBOSE, tag, OptException(exception), "", source);
-  }
-  inline void verbose(const Exception& exception, Message message, const Source source = Source::current()) {
-    logger->log(Level::VERBOSE, tag, OptException(exception), message, source);
-  }
-  inline void verbose(const Exception& exception, Lambda message, const Source source = Source::current()) {
-    logger->log(Level::VERBOSE, tag, OptException(exception), message, source);
-  }
+  void verbose(Message message, const Source source = Source::current());
+  void verbose(Lambda message, const Source source = Source::current());
+  void verbose(const Exception& exception, const Source source = Source::current());
+  void verbose(const Exception& exception, Message message, const Source source = Source::current());
+  void verbose(const Exception& exception, Lambda message, const Source source = Source::current());
 
   //*********************
   //  Error Short Block
   //*********************
-  inline void e(Message message, const Source source = Source::current()) {
-    logger->log(Level::ERROR, tag, OptException(), message, source);
-  }
-  inline void e(Lambda message, const Source source = Source::current()) {
-    logger->log(Level::ERROR, tag, OptException(), message, source);
-  }
-  inline void e(const Exception& exception, const Source source = Source::current()) {
-    logger->log(Level::ERROR, tag, OptException(exception), "", source);
-  }
-  inline void e(const Exception& exception, Message message, const Source source = Source::current()) {
-    logger->log(Level::ERROR, tag, OptException(exception), message, source);
-  }
-  inline void e(const Exception& exception, Lambda message, const Source source = Source::current()) {
-    logger->log(Level::ERROR, tag, OptException(exception), message, source);
-  }
+  void e(Message message, const Source source = Source::current());
+  void e(Lambda message, const Source source = Source::current());
+  void e(const Exception& exception, const Source source = Source::current());
+  void e(const Exception& exception, Message message, const Source source = Source::current());
+  void e(const Exception& exception, Lambda message, const Source source = Source::current());
 
   //***********************
   //  Warning Short Block
   //***********************
-  inline void w(Message message, const Source source = Source::current()) {
-    logger->log(Level::WARNING, tag, OptException(), message, source);
-  }
-  inline void w(Lambda message, const Source source = Source::current()) {
-    logger->log(Level::WARNING, tag, OptException(), message, source);
-  }
-  inline void w(const Exception& exception, const Source source = Source::current()) {
-    logger->log(Level::WARNING, tag, OptException(exception), "", source);
-  }
-  inline void w(const Exception& exception, Message message, const Source source = Source::current()) {
-    logger->log(Level::WARNING, tag, OptException(exception), message, source);
-  }
-  inline void w(const Exception& exception, Lambda message, const Source source = Source::current()) {
-    logger->log(Level::WARNING, tag, OptException(exception), message, source);
-  }
+  void w(Message message, const Source source = Source::current());
+  void w(Lambda message, const Source source = Source::current());
+  void w(const Exception& exception, const Source source = Source::current());
+  void w(const Exception& exception, Message message, const Source source = Source::current());
+  void w(const Exception& exception, Lambda message, const Source source = Source::current());
 
   //***************************
   //  Information Short Block
   //***************************
-  inline void i(Message message, const Source source = Source::current()) {
-    logger->log(Level::INFORMATION, tag, OptException(), message, source);
-  }
-  inline void i(Lambda message, const Source source = Source::current()) {
-    logger->log(Level::INFORMATION, tag, OptException(), message, source);
-  }
-  inline void i(const Exception& exception, const Source source = Source::current()) {
-    logger->log(Level::INFORMATION, tag, OptException(exception), "", source);
-  }
-  inline void i(const Exception& exception, Message message, const Source source = Source::current()) {
-    logger->log(Level::INFORMATION, tag, OptException(exception), message, source);
-  }
-  inline void i(const Exception& exception, Lambda message, const Source source = Source::current()) {
-    logger->log(Level::INFORMATION, tag, OptException(exception), message, source);
-  }
+  void i(Message message, const Source source = Source::current());
+  void i(Lambda message, const Source source = Source::current());
+  void i(const Exception& exception, const Source source = Source::current());
+  void i(const Exception& exception, Message message, const Source source = Source::current());
+  void i(const Exception& exception, Lambda message, const Source source = Source::current());
 
   //*********************
   //  Debug Short Block
   //*********************
-  inline void d(Message message, const Source source = Source::current()) {
-    logger->log(Level::DEBUG, tag, OptException(), message, source);
-  }
-  inline void d(Lambda message, const Source source = Source::current()) {
-    logger->log(Level::DEBUG, tag, OptException(), message, source);
-  }
-  inline void d(const Exception& exception, const Source source = Source::current()) {
-    logger->log(Level::DEBUG, tag, OptException(exception), "", source);
-  }
-  inline void d(const Exception& exception, Message message, const Source source = Source::current()) {
-    logger->log(Level::DEBUG, tag, OptException(exception), message, source);
-  }
-  inline void d(const Exception& exception, Lambda message, const Source source = Source::current()) {
-    logger->log(Level::DEBUG, tag, OptException(exception), message, source);
-  }
+  void d(Message message, const Source source = Source::current());
+  void d(Lambda message, const Source source = Source::current());
+  void d(const Exception& exception, const Source source = Source::current());
+  void d(const Exception& exception, Message message, const Source source = Source::current());
+  void d(const Exception& exception, Lambda message, const Source source = Source::current());
 
   //***********************
   //  Verbose Short Block
   //***********************
-  inline void v(Message message, const Source source = Source::current()) {
-    logger->log(Level::VERBOSE, tag, OptException(), message, source);
-  }
-  inline void v(Lambda message, const Source source = Source::current()) {
-    logger->log(Level::VERBOSE, tag, OptException(), message, source);
-  }
-  inline void v(const Exception& exception, const Source source = Source::current()) {
-    logger->log(Level::VERBOSE, tag, OptException(exception), "", source);
-  }
-  inline void v(const Exception& exception, Message message, const Source source = Source::current()) {
-    logger->log(Level::VERBOSE, tag, OptException(exception), message, source);
-  }
-  inline void v(const Exception& exception, Lambda message, const Source source = Source::current()) {
-    logger->log(Level::VERBOSE, tag, OptException(exception), message, source);
-  }
+  void v(Message message, const Source source = Source::current());
+  void v(Lambda message, const Source source = Source::current());
+  void v(const Exception& exception, const Source source = Source::current());
+  void v(const Exception& exception, Message message, const Source source = Source::current());
+  void v(const Exception& exception, Lambda message, const Source source = Source::current());
 
  private:
-  const std::shared_ptr<LoggerInterface> logger;
+  void check();
+  const std::shared_ptr<void> logger;
   const std::string_view tag;
 };
 
