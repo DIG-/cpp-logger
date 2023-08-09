@@ -17,7 +17,7 @@ void Logger::check() {
   if (logger.get() == nullptr) [[unlikely]] {
     throw std::logic_error("Can not initialize Logger with null");
   }
-  if (static_cast<LoggerInterface*>(logger.get()) == nullptr) [[unlikely]] {
+  if (static_cast<LoggerInterface*>(logger.get())->magic_number != 0x09793BB6) [[unlikely]] {
     throw std::logic_error("Unable to cast logger as LoggerInterface");
   }
 }

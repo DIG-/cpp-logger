@@ -13,6 +13,8 @@ namespace Logger {
 
 class LoggerInterface {
  public:
+  const uint32_t magic_number = 0x09793BB6;
+
   LoggerInterface(){};
   virtual ~LoggerInterface(){};
 
